@@ -1,6 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
+
 from src.app import ITEMS, ITEMS_LOCK, Item
 
 
