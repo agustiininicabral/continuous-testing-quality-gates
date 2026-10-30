@@ -1,3 +1,5 @@
+import json
+
 import pytest
 
 
@@ -17,7 +19,13 @@ import pytest
 def test_create_item_rejects_invalid_payloads_without_mutating_state(client, payload):
     before = client.get("/api/items").json()
 
-    response = client.post("/api/items", json=payload)
+    # json= uses a strict encoder that rejects NaN/Infinity before the request
+    # reaches the API. Serialize explicitly to exercise server-side validation.
+    response = client.post(
+        "/api/items",
+        content=json.dumps(payload),
+        headers={"content-type": "application/json"},
+    )
 
     assert response.status_code == 422
     assert client.get("/api/items").json() == before
