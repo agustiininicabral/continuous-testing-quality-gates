@@ -9,9 +9,9 @@ app = FastAPI(title="Quality Gates Demo API", version="1.0.0")
 class Item(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True)
 
-    id: int = Field(gt=0)
-    name: str = Field(min_length=2)
-    price: float = Field(gt=0)
+    id: int = Field(gt=0, strict=True)
+    name: str = Field(min_length=2, max_length=100)
+    price: float = Field(gt=0, allow_inf_nan=False)
 
 
 ITEMS_LOCK = Lock()
