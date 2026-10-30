@@ -1,3 +1,5 @@
+from threading import Lock
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -12,6 +14,8 @@ class Item(BaseModel):
     price: float = Field(gt=0)
 
 
+ITEMS_LOCK = Lock()
+
 ITEMS = [
     Item(id=1, name="Keyboard", price=45.0),
     Item(id=2, name="Mouse", price=25.5),
@@ -25,20 +29,23 @@ def health() -> dict[str, str]:
 
 @app.get("/api/items")
 def list_items() -> list[Item]:
-    return ITEMS
+    with ITEMS_LOCK:
+        return list(ITEMS)
 
 
 @app.get("/api/items/{item_id}")
 def get_item(item_id: int) -> Item:
-    for item in ITEMS:
-        if item.id == item_id:
-            return item
+    with ITEMS_LOCK:
+        for item in ITEMS:
+            if item.id == item_id:
+                return item
     raise HTTPException(status_code=404, detail="Item not found")
 
 
 @app.post("/api/items", status_code=201)
 def create_item(item: Item) -> Item:
-    if any(existing.id == item.id for existing in ITEMS):
-        raise HTTPException(status_code=409, detail="Item already exists")
-    ITEMS.append(item)
-    return item
+    with ITEMS_LOCK:
+        if any(existing.id == item.id for existing in ITEMS):
+            raise HTTPException(status_code=409, detail="Item already exists")
+        ITEMS.append(item)
+        return item
