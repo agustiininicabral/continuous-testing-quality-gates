@@ -1,6 +1,11 @@
+import math
 from threading import Lock
+from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
 app = FastAPI(title="Quality Gates Demo API", version="1.0.0")
@@ -12,6 +17,26 @@ class Item(BaseModel):
     id: int = Field(gt=0, strict=True)
     name: str = Field(min_length=2, max_length=100)
     price: float = Field(gt=0, allow_inf_nan=False)
+
+
+def _json_safe(value: Any) -> Any:
+    if isinstance(value, float) and not math.isfinite(value):
+        return repr(value)
+    if isinstance(value, dict):
+        return {key: _json_safe(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_json_safe(item) for item in value]
+    return value
+
+
+@app.exception_handler(RequestValidationError)
+async def handle_request_validation_error(
+    _request: Request, exc: RequestValidationError
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=422,
+        content={"detail": jsonable_encoder(_json_safe(exc.errors()))},
+    )
 
 
 ITEMS_LOCK = Lock()
