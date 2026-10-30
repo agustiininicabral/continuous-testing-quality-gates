@@ -28,4 +28,5 @@ def test_create_item_rejects_invalid_payloads_without_mutating_state(client, pay
     )
 
     assert response.status_code == 422
+    assert response.json()["detail"]
     assert client.get("/api/items").json() == before
