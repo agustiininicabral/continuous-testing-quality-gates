@@ -7,9 +7,14 @@ import pytest
     [
         {"id": 0, "name": "Keyboard", "price": 20},
         {"id": 3, "name": "   ", "price": 20},
+        {"id": True, "name": "Keyboard", "price": 20},
+        {"id": "3", "name": "Keyboard", "price": 20},
+        {"id": 3, "name": "x" * 101, "price": 20},
+        {"id": 3, "name": "Keyboard", "price": float("nan")},
+        {"id": 3, "name": "Keyboard", "price": float("inf")},
     ],
 )
-def test_create_item_rejects_invalid_identifier_and_blank_name(client, payload):
+def test_create_item_rejects_invalid_payloads_without_mutating_state(client, payload):
     before = client.get("/api/items").json()
 
     response = client.post("/api/items", json=payload)
