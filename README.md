@@ -10,7 +10,7 @@ A Python demonstration project for layered automated testing and continuous inte
 - Regression tests for duplicate-resource protection and invalid input side effects.
 - Atomic duplicate checks and thread-safe item reads/writes under concurrent requests.
 - Test fixtures that restore a fixed baseline, preventing state leakage between tests.
-- Positive and negative API scenarios, including validation errors, not-found, and duplicate-resource cases.
+- Positive and negative API scenarios, including validation errors, not-found, duplicate-resource cases, strict positive integer IDs, finite positive prices, and bounded item names (2–100 characters).
 - CI matrix for Python 3.11 and 3.12.
 - Dependency validation, linting, formatting, test execution, and an 85% coverage gate.
 - JUnit XML and coverage XML artifacts retained by GitHub Actions for 14 days.
