@@ -8,6 +8,8 @@ A Python demonstration project for layered automated testing and continuous inte
 - Integration tests for HTTP endpoints and status codes.
 - Contract tests for response structure and JSON data types.
 - Regression tests for duplicate-resource protection and invalid input side effects.
+- Atomic duplicate checks and thread-safe item reads/writes under concurrent requests.
+- Test fixtures that restore a fixed baseline, preventing state leakage between tests.
 - Positive and negative API scenarios, including validation errors, not-found, and duplicate-resource cases.
 - CI matrix for Python 3.11 and 3.12.
 - Dependency validation, linting, formatting, test execution, and an 85% coverage gate.
