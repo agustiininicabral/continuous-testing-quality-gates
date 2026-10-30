@@ -14,7 +14,8 @@ addopts = "-ra --strict-markers"
 markers = [
   "unit: isolated unit tests",
   "integration: in-process API integration tests",
-  "contract: API response contract tests"
+  "contract: API response contract tests",
+  "regression: tests protecting previously fixed API behavior"
 ]
 
 [tool.coverage.run]

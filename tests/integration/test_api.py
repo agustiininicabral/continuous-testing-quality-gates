@@ -33,12 +33,3 @@ def test_create_item_returns_201(client):
     )
     assert response.status_code == 201
     assert response.json()["name"] == "Webcam"
-
-
-@pytest.mark.integration
-def test_duplicate_item_returns_409(client):
-    response = client.post(
-        "/api/items",
-        json={"id": 1, "name": "Duplicate", "price": 20.0},
-    )
-    assert response.status_code == 409

@@ -7,7 +7,8 @@ A Python demonstration project for layered automated testing and continuous inte
 - Unit tests for input validation and business rules.
 - Integration tests for HTTP endpoints and status codes.
 - Contract tests for response structure and JSON data types.
-- Positive and negative API scenarios, including not-found and duplicate-resource cases.
+- Regression tests for duplicate-resource protection and invalid input side effects.
+- Positive and negative API scenarios, including validation errors, not-found, and duplicate-resource cases.
 - CI matrix for Python 3.11 and 3.12.
 - Dependency validation, linting, formatting, test execution, and an 85% coverage gate.
 - JUnit XML and coverage XML artifacts retained by GitHub Actions for 14 days.
@@ -18,6 +19,7 @@ A Python demonstration project for layered automated testing and continuous inte
 - `tests/unit`: isolated model validation tests.
 - `tests/integration`: endpoint behavior tests using FastAPI TestClient.
 - `tests/contract`: response shape and type assertions.
+- `tests/regression`: tests that protect previously fixed API behavior.
 - `.github/workflows/quality-gates.yml`: automated CI workflow.
 
 ## Run locally
