@@ -23,6 +23,11 @@ def test_valid_item_payload(payload, expected):
         {"id": 1, "name": "A", "price": 10},
         {"id": 1, "name": "Valid", "price": 0},
         {"id": 1, "name": "Valid", "price": -1},
+        {"id": 1, "name": "Valid", "price": float("nan")},
+        {"id": 1, "name": "Valid", "price": float("inf")},
+        {"id": True, "name": "Valid", "price": 10},
+        {"id": "1", "name": "Valid", "price": 10},
+        {"id": 1, "name": "x" * 101, "price": 10},
     ],
 )
 def test_invalid_item_payload_is_rejected(payload):
