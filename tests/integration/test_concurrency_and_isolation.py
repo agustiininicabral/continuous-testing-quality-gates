@@ -46,9 +46,14 @@ def polluted_shared_state():
         ITEMS.append(Item(id=999, name="Leaked item", price=1.0))
 
 
+@pytest.fixture
+def dirty_client(polluted_shared_state, client):
+    return client
+
+
 @pytest.mark.integration
-def test_client_fixture_restores_a_clean_baseline(polluted_shared_state, client):
-    response = client.get("/api/items")
+def test_client_fixture_restores_a_clean_baseline(dirty_client):
+    response = dirty_client.get("/api/items")
 
     assert response.status_code == 200
     assert {item["id"] for item in response.json()} == {1, 2}
