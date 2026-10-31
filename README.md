@@ -1,6 +1,6 @@
 # Continuous Testing & CI Quality Gates
 
-A Python demonstration project for layered automated testing and continuous integration. It uses FastAPI, Pytest, pytest-cov, Ruff, and GitHub Actions to validate API behavior and enforce repeatable quality checks.
+A Python demonstration project for layered automated testing and continuous integration. It uses FastAPI, Pytest, pytest-cov, Ruff, CodeQL, Dependabot, and GitHub Actions to validate API behavior and enforce repeatable quality checks.
 
 ## Included capabilities
 
@@ -10,7 +10,7 @@ A Python demonstration project for layered automated testing and continuous inte
 - Regression tests for duplicate-resource protection and invalid input side effects.
 - Atomic duplicate checks and thread-safe item reads/writes under concurrent requests.
 - Test fixtures that restore a fixed baseline, preventing state leakage between tests.
-- Positive and negative API scenarios, including validation errors, not-found, duplicate-resource cases, strict positive integer IDs, finite positive prices, and bounded item names (2–100 characters).
+- Positive and negative API scenarios, including validation errors, not-found, duplicate-resource cases, strict positive integer IDs and prices, finite positive prices, rejection of unknown fields, and bounded item names (2–100 characters).
 - CI matrix for Python 3.11 and 3.12.
 - Dependency validation, linting, formatting, test execution, and an 85% coverage gate.
 - JUnit XML and coverage XML artifacts retained by GitHub Actions for 14 days.
@@ -22,7 +22,9 @@ A Python demonstration project for layered automated testing and continuous inte
 - `tests/integration`: endpoint behavior tests using FastAPI TestClient.
 - `tests/contract`: response shape and type assertions.
 - `tests/regression`: tests that protect previously fixed API behavior.
-- `.github/workflows/quality-gates.yml`: automated CI workflow.
+- `.github/workflows/quality-gates.yml`: automated CI workflow across Windows/Linux and Python 3.11/3.12.
+- `.github/workflows/codeql.yml`: scheduled and event-driven static security analysis.
+- `.github/dependabot.yml`: weekly dependency update checks for pip and GitHub Actions.
 
 ## Run locally
 
@@ -53,7 +55,7 @@ A push to `main` or a pull request targeting `main` runs the quality workflow on
 
 ## Scope and limitations
 
-The API uses in-memory sample data and is intended for testing demonstrations, not production deployment. Integration tests run in-process and do not depend on external services. Workflow status is determined by actual GitHub Actions executions; no passing CI result is assumed.
+The API uses in-memory sample data and is intended for testing demonstrations, not production deployment. Input validation rejects coercive numeric values and unknown fields. Integration tests run in-process and do not depend on external services. CodeQL and Dependabot add automated security/dependency maintenance checks; they do not replace manual security review. Workflow status is determined by actual GitHub Actions executions; no passing CI result is assumed.
 
 ## License
 
