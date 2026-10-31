@@ -1,6 +1,6 @@
 [project]
 name = "continuous-testing-quality-gates"
-version = "1.0.0"
+version = "1.1.0"
 description = "Continuous testing demo with layered pytest suites and CI quality gates."
 requires-python = ">=3.11"
 dependencies = ["fastapi>=0.115,<1.0", "uvicorn>=0.30,<1.0"]
