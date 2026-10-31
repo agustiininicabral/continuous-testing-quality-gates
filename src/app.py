@@ -8,15 +8,15 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
-app = FastAPI(title="Quality Gates Demo API", version="1.0.0")
+app = FastAPI(title="Quality Gates Demo API", version="1.1.0")
 
 
 class Item(BaseModel):
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     id: int = Field(gt=0, strict=True)
     name: str = Field(min_length=2, max_length=100)
-    price: float = Field(gt=0, allow_inf_nan=False)
+    price: float = Field(gt=0, strict=True, allow_inf_nan=False)
 
 
 def _json_safe(value: Any) -> Any:
