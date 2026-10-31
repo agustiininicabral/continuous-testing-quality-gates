@@ -14,6 +14,9 @@ import pytest
         {"id": 3, "name": "x" * 101, "price": 20},
         {"id": 3, "name": "Keyboard", "price": float("nan")},
         {"id": 3, "name": "Keyboard", "price": float("inf")},
+        {"id": 3, "name": "Keyboard", "price": True},
+        {"id": 3, "name": "Keyboard", "price": "20"},
+        {"id": 3, "name": "Keyboard", "price": 20, "unexpected": "field"},
     ],
 )
 def test_create_item_rejects_invalid_payloads_without_mutating_state(client, payload):
